@@ -25,7 +25,8 @@ public class MenuOpcoes {
         int[] arrayMediana = gerarArrayNumeros();
 
         //calcula a mediana
-        System.out.print("\nArray de Entrada: "+ Arrays.toString(arrayMediana) +"\nMediana: " + calcularMediana(arrayMediana));
+        System.out.println("\nArray de Entrada: "+ Arrays.toString(arrayMediana) +"\nMediana: " + calcularMediana(arrayMediana));
+
     }
 
     public static void opcaoCalcularDistancia(){
@@ -44,6 +45,7 @@ public class MenuOpcoes {
         System.out.println("\nArray de Entrada: " + Arrays.toString(arrayDistancia) + "\nDistancia entre Numeros: " + distanciaEntreNumeros);
         System.out.print("Pares encontrados: ");
         resultado.forEach(par -> System.out.print(Arrays.toString(par) + " "));
+        System.out.println();
 
     }
 
@@ -52,37 +54,58 @@ public class MenuOpcoes {
         System.out.println("Informe o texto que deseja encriptografar: ");
 
         String texto = entrada.nextLine();
-        System.out.println(encriptografarTexto(texto));
+        System.out.println("Texto encriptografado: " + encriptografarTexto(texto));
     }
-
 
     public static int[] gerarArrayNumeros(){
 
         Scanner entrada = new Scanner(System.in);
+        int quantidade = 0;
 
-        //solicitar o tamanho do array
-        System.out.println("Informe a quantidade de numeros para o seu array: ");
-        int quantidade = entrada.nextInt();
+        //validar entrada de dados
+        do{
+
+            //solicitar o tamanho do array
+            System.out.println("Informe a quantidade de numeros para o seu array: ");
+            String valorEntrada = entrada.nextLine();
+
+            //validar se usuario informou dado válido e se o tamanho do array é maior que zero
+            if(valorEntrada.matches("-?\\d+") && Integer.parseInt(valorEntrada) > 0){
+                quantidade = Integer.parseInt(valorEntrada);
+            }
+            else{
+                System.out.println("Opção inválida!");
+            }
+
+        }while (quantidade == 0);
 
         int[] numeros = new int[quantidade];
 
         //adicionar numeros no array
-        for (int i = 0; i < numeros.length; i++){
-            System.out.println("Informe o " + (i+1) + "º numero: ");
-            numeros[i] = entrada.nextInt();
-        }
+        for (int i = 0; i < numeros.length;){
 
+            System.out.println("Informe o " + (i+1) + "º numero: ");
+            String valorEntrada = entrada.nextLine();
+
+            //validar entrada de dados
+            if(!valorEntrada.matches("-?\\d+")){
+                System.out.println("Opção inválida!");
+            }
+            else{
+                numeros[i] = Integer.parseInt(valorEntrada);
+                i++;
+            }
+        }
         return numeros;
     }
 
-
     public static void carregarMenuOpcoes(){
-        String opcao;
+
         Scanner entrada = new Scanner(System.in);
 
         do{
             menu();
-            opcao = entrada.nextLine();
+            String opcao = entrada.nextLine();
 
             switch (opcao) {
                 case "1":
@@ -100,10 +123,9 @@ public class MenuOpcoes {
                 case "0": return;
 
                 default:
-                    System.out.println("Opção inválida.");
+                    System.out.println("Opção inválida!");
                     break;
             }
-        } while (opcao != "0");
+        } while (true);
     }
-
 }
